@@ -30,6 +30,8 @@ class CategoryMealsScreen extends StatelessWidget {
                isVegan:filteredMeals[index].isVegan,
                isLactoseFree: filteredMeals[index].isLactoseFree,
                isVegetarian: filteredMeals[index].isVegetarian,
+               affordability: filteredMeals[index].affordability,
+               complexity: filteredMeals[index].complexity
               );
           },
           itemCount: filteredMeals.length),

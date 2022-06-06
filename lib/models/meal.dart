@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../dummayData/dummay_data.dart';
 class Meal {
   final String id;
   final List<String> categories;
@@ -11,6 +12,8 @@ class Meal {
   final bool isVegan;
   final bool isVegetarian;
   final bool isLactoseFree;
+  final Affordability affordability;
+  final Complexity complexity;
   Meal({
     required this.id,
     required this.categories,
@@ -23,5 +26,7 @@ class Meal {
     required this.isVegan,
     required this.isLactoseFree,
     required this.isVegetarian,
+    required this.affordability,
+    required this.complexity,
   });
 }
