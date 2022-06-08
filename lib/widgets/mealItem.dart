@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../dummayData/dummay_data.dart';
+import '../screens/mealDetail.dart';
 
 class MealItem extends StatelessWidget {
   final String id;
@@ -40,6 +41,7 @@ class MealItem extends StatelessWidget {
         return 'Luxurious';
     }
   }
+
   String getComplexity() {
     switch (complexity) {
       case Complexity.Simple:
@@ -51,10 +53,16 @@ class MealItem extends StatelessWidget {
     }
   }
 
+  void goToMealDetailScreen(context) {
+    Navigator.of(context).pushNamed(MealDetail.route, arguments: {
+      "id":id
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: ()=>goToMealDetailScreen(context),
       child: Card(
         margin: const EdgeInsets.all(16),
         shape: RoundedRectangleBorder(
@@ -71,7 +79,7 @@ class MealItem extends StatelessWidget {
                 ),
                 child: Image.network(
                   imageUrl,
-                  height: 250,
+                  height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
@@ -94,41 +102,39 @@ class MealItem extends StatelessWidget {
                     ),
                   )),
             ]),
-           Container(
-             padding:const EdgeInsets.symmetric(vertical: 10),
-             child:  Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(children: [
-                  const Icon(
-                    Icons.schedule,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text('${duration.toString()} min')
-                ]),
-                Row(children: [
-                  const Icon(
-                    Icons.work_outline
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text('${getComplexity()} ')
-                ]),
-                Row(children: [
-                  const Icon(
-                    Icons.attach_money_rounded,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text('${getAffordability()} ')
-                ]),
-              ],
-            ),
-           )
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(children: [
+                    const Icon(
+                      Icons.schedule,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text('${duration.toString()} min')
+                  ]),
+                  Row(children: [
+                    const Icon(Icons.work_outline),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text('${getComplexity()} ')
+                  ]),
+                  Row(children: [
+                    const Icon(
+                      Icons.attach_money_rounded,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text('${getAffordability()} ')
+                  ]),
+                ],
+              ),
+            )
           ],
         ),
       ),
