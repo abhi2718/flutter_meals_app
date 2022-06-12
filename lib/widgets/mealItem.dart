@@ -57,12 +57,14 @@ class MealItem extends StatelessWidget {
     Navigator.of(context).pushNamed(MealDetail.route, arguments: {
       "id":id
     });
+    // going back and passing data to parent screen
+   // Navigator.of(context).pop([{"id":id}]);
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=>goToMealDetailScreen(context),
+      onTap: () => goToMealDetailScreen(context),
       child: Card(
         margin: const EdgeInsets.all(16),
         shape: RoundedRectangleBorder(

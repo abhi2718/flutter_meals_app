@@ -7,19 +7,17 @@ class CategoryItem extends StatelessWidget {
   final String id;
   CategoryItem({required this.color, required this.title, required this.id});
   void selectCategory(context) {
-    Navigator.of(context).pushNamed(
-       '/category-meals',
-       arguments: {
-         'title':title,
-         'id':id,
-       }
-    );
+    Navigator.of(context).pushNamed('/category-meals', arguments: {
+      'title': title,
+      'id': id,
+    });
+    //.then((value) =>print(value));
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=>selectCategory(context),
+      onTap: () => selectCategory(context),
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(16),
       child: Container(
