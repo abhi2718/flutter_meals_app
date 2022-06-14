@@ -2,31 +2,61 @@ import 'package:flutter/material.dart';
 import '../widgets/mainDrawer.dart';
 
 class FilterScreen extends StatefulWidget {
+  final Function setFilter;
   static const route = '/filter';
-  const FilterScreen({Key? key}) : super(key: key);
+  final Map filter;
+  const FilterScreen({Key? key, required this.setFilter, required this.filter})
+      : super(key: key);
   @override
   State<FilterScreen> createState() => _FilterScreenState();
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  var isGlutenFree = false;
-  var isVegan = false;
-  var isVegetarian = false;
-  var isLactoseFree = false;
+  bool isGlutenFree = false;
+  bool isVegan = false;
+  bool isVegetarian = false;
+  bool isLactoseFree = false;
+  @override
+  void initState() {
+   setState(() {
+      isGlutenFree = widget.filter['GlutenFree'];
+      isVegan = widget.filter['Vegan'];
+      isVegetarian = widget.filter['Vegetarian'];
+      isLactoseFree = widget.filter['LactoseFree'];
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Filter Meals')),
+      appBar: AppBar(
+        title: const Text('Filter Meals'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                widget.setFilter({
+                  'GlutenFree': isGlutenFree,
+                  'Vegan': isVegan,
+                  'Vegetarian': isVegetarian,
+                  'LactoseFree': isLactoseFree
+                });
+              },
+              icon: const Icon(Icons.save))
+        ],
+      ),
       drawer: const Drawer(
         child: MainDrawer(),
       ),
       body: ListView(
         children: [
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Container(
-            alignment:Alignment.center,
+            alignment: Alignment.center,
             child: const Text("Adjust Your Meal Selection ",
-            style:TextStyle(fontSize:16,fontWeight:FontWeight.bold)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ),
           SwitchListTile(
               value: isGlutenFree,
@@ -36,9 +66,8 @@ class _FilterScreenState extends State<FilterScreen> {
                 });
               },
               title: const Text('Gluten Free'),
-              subtitle: const Text('Only include Gluten free meals.')
-              ),
-              SwitchListTile(
+              subtitle: const Text('Only include Gluten free meals.')),
+          SwitchListTile(
               value: isVegan,
               onChanged: (val) {
                 setState(() {
@@ -46,9 +75,8 @@ class _FilterScreenState extends State<FilterScreen> {
                 });
               },
               title: const Text('Vegan Free'),
-              subtitle: const Text('Only include Vegan free meals.')
-              ),
-              SwitchListTile(
+              subtitle: const Text('Only include Vegan free meals.')),
+          SwitchListTile(
               value: isVegetarian,
               onChanged: (val) {
                 setState(() {
@@ -56,9 +84,8 @@ class _FilterScreenState extends State<FilterScreen> {
                 });
               },
               title: const Text('Vegetarian Free'),
-              subtitle: const Text('Only include Vegetarian free meals.')
-              ),
-              SwitchListTile(
+              subtitle: const Text('Only include Vegetarian free meals.')),
+          SwitchListTile(
               value: isLactoseFree,
               onChanged: (val) {
                 setState(() {
@@ -66,8 +93,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 });
               },
               title: const Text('Lactose Free'),
-              subtitle: const Text('Only include Lactose free meals.')
-              )
+              subtitle: const Text('Only include Lactose free meals.'))
         ],
       ),
     );
