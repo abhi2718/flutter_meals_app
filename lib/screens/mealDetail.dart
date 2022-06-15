@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import '../dummayData/dummay_data.dart';
 
-class MealDetail extends StatelessWidget {
+class MealDetail extends StatefulWidget {
   static const String route = '/mealDetail';
+  final Function setFavoritesMeals;
+  const MealDetail({
+    Key? key, 
+    required this.setFavoritesMeals
+    }) : super(key: key);
+  @override
+  State<MealDetail> createState() => _MealDetailState();
+}
+
+class _MealDetailState extends State<MealDetail> {
   Widget buildHeading(String text) {
     return Text(text,
         style: const TextStyle(
@@ -27,6 +37,9 @@ class MealDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double sectionHeight =
+        (MediaQuery.of(context).size.height - AppBar().preferredSize.height) /
+            3;
     final Map<String, String> routeArgs =
         ModalRoute.of(context)?.settings.arguments as Map<String, String>;
     final String? id = routeArgs['id'];
@@ -38,66 +51,67 @@ class MealDetail extends StatelessWidget {
         title: Text('${selectedMeal.title}'),
       ),
       body: SingleChildScrollView(
-        child:Column(
-        children: [
-          Image.network(
-            selectedMeal.imageUrl,
-            width: double.infinity,
-            fit: BoxFit.fill,
-            height: 200,
-          ),
-          const SizedBox(
-            height: 6,
-          ),
-          buildHeading('Ingredients'),
-          SizedBox(
-            height: 200,
-            child: ListView.builder(
-              itemBuilder: ((context, index) =>
-                Column(
-                children: [
-                ListTile(
-                leading: CircleAvatar(
-                   child:Text('${index+1}')
-                ),
-                title:Text('${selectedMeal.ingredients[index]}'),
-              ),
-              const Divider(
-                thickness: 1,
-              )
-              ],
-              )),
-              itemCount: selectedMeal.ingredients.length,
+        child: Column(
+          children: [
+            Image.network(
+              selectedMeal.imageUrl,
+              width: double.infinity,
+              fit: BoxFit.fill,
+              height: sectionHeight,
             ),
-          ),
-          const SizedBox(
-            height: 6,
-          ),
-          buildHeading('Steps'),
-          SizedBox(
-            height: 200,
-            child: ListView.builder(itemBuilder: (context, index) {
-              return Column(
-                children: [
-                ListTile(
-                leading: CircleAvatar(
-                   child:Text('#${index+1}')
-                ),
-                title:Text('${selectedMeal.steps[index]}'),
-              ),
-              const Divider(
-                thickness: 1,
-              )
-              ],
-              );
-            },
-            itemCount: selectedMeal.steps.length
+            const SizedBox(
+              height: 6,
             ),
-          ),
-          
-        ],
+            buildHeading('Ingredients'),
+            SizedBox(
+              height: sectionHeight,
+              child: ListView.builder(
+                itemBuilder: ((context, index) => Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(child: Text('${index + 1}')),
+                          title: Text('${selectedMeal.ingredients[index]}'),
+                        ),
+                        const Divider(
+                          thickness: 1,
+                        )
+                      ],
+                    )),
+                itemCount: selectedMeal.ingredients.length,
+              ),
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            buildHeading('Steps'),
+            SizedBox(
+              height: sectionHeight,
+              child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(child: Text('#${index + 1}')),
+                          title: Text('${selectedMeal.steps[index]}'),
+                        ),
+                        const Divider(
+                          thickness: 1,
+                        )
+                      ],
+                    );
+                  },
+                  itemCount: selectedMeal.steps.length),
+            ),
+          ],
+        ),
       ),
-      )
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.star),
+        onPressed: () {
+          setState(()=>widget.setFavoritesMeals(id));
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

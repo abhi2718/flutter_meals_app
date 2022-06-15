@@ -45,6 +45,15 @@ class _AppState extends State<App> {
     });
   }
 
+  void setFavoritesMeals(id) {
+    setState(() {
+      if (!favoritesMeals.contains(id)) {
+        return favoritesMeals.add(id);
+      }
+      return;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,11 +65,15 @@ class _AppState extends State<App> {
         ),
         initialRoute: '/',
         routes: {
-          '/': (context) => const TabScreen(),
+          '/': (context) => TabScreen(
+            favoritesMeals:favoritesMeals
+          ),
           CategoryMealsScreen.route: (context) => CategoryMealsScreen(
                 filteredMealsList: filteredMeals,
               ),
-          MealDetail.route: (context) => MealDetail(),
+          MealDetail.route: (context) => MealDetail(
+                setFavoritesMeals: setFavoritesMeals,
+              ),
           FilterScreen.route: (context) => FilterScreen(
                 setFilter: _setFilter,
                 filter: filter,

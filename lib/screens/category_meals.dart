@@ -19,7 +19,7 @@ class CategoryMealsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(categoryName!),
       ),
-      body: ListView.builder(
+      body: filteredMeals.isNotEmpty?ListView.builder(
           itemBuilder: (context, index) {
             return MealItem(
                 id: filteredMeals[index].id,
@@ -36,7 +36,9 @@ class CategoryMealsScreen extends StatelessWidget {
                 affordability: filteredMeals[index].affordability,
                 complexity: filteredMeals[index].complexity);
           },
-          itemCount: filteredMeals.length),
+          itemCount: filteredMeals.length):const Center(
+            child: Text('Meal does not found !'),
+          ),
     );
   }
 }
